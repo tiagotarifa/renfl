@@ -33,13 +33,15 @@ ubatuba_beach-2010-07-02-13.jpg
 ***
 How to use
 ---
+```
 renfl [options] <file-1.*> [file-2.*] ...
   -p, --pretend               shows what could be done but it does't.
   -r, --regex 'REGEX'         change regular expression.
   -z, --decimal-places n      'n'umber of decimal places. Default is 2.
   -V, --version               shows version and exit.
   -h, --help                  show this help and exit.
+```
+### Default REGEX:
+`'.*-[1-9]?[1-9]?[0-9]\.[[:alpha:]].*'`
 
-Default REGEX:
-'.*-[1-9]?[1-9]?[0-9]\.[[:alpha:]].*'
-It's match with 'arq-1.jpg', 'ArQ2-12.png', 'anyname54-42-128.gif' and 'abc-001.jpg', for example.
+It's match with *arq-1.jpg*, *ArQ2-12.png*, *anyname54-42-128.gif* and *abc-001.jpg*, for example.
