@@ -8,13 +8,13 @@
 
 int main(int argc, char **argv)
 {
-  short int c, d, dpos, mpos, qzeros;
+  short int i, c, d, dpos, mpos, qzeros;
   short int pretnd = FALSE;
   long int casdes = 2;
   short int rtn = 0;
   short int quiet = FALSE;
-  char *tailptr = NULL;
-  char regex[] = ".*-[1-9]?[1-9]?[0-9]\.[[:alpha:]].*";
+  char *p_casdes;
+  char regex[] = "-[0-9]?[0-9]?[0-9]\.[[:alpha:]]{3}";
   char *p_regex = regex;
   char nvnome[30];
   char msgbuf[100];
@@ -29,7 +29,7 @@ int main(int argc, char **argv)
         pretnd = TRUE;
         break;
       case 'z':
-        casdes = strtol(optarg,tailptr,0);
+        casdes = strtol(optarg,&p_casdes,0);
         break ;
       case 'r':
         strcpy(p_regex,optarg);
@@ -50,7 +50,7 @@ int main(int argc, char **argv)
         printf("  -h, --help                  mostra esta ajuda e sai\n");
         printf("\n");
         printf("REGEX:\n");
-        printf("%s -r '.*[1-9][0-9]\.[[:alpha:]].*'\n",argv[0]);
+        printf("%s -r '.*[1-9][0-9]\\.[[:alpha:]].*'\n",argv[0]);
         exit(rtn);
       case 'V':
         printf("%s 0.01\n",argv[0]);
@@ -67,7 +67,7 @@ int main(int argc, char **argv)
   }
   //
 
-  for (int i=optind;i<argc;i++)
+  for (i=optind;i<argc;i++)
   {
     //Se não existe arquivo, pula para o próximo
     if (access( argv[i], W_OK ) != 0)
@@ -98,7 +98,6 @@ int main(int argc, char **argv)
 
       //Calcula a qtd de zeros que deve colocar à direita
       qzeros = casdes - (dpos - mpos) ;
-
       //Adiciona os zeros à direita respeitando o num. de casas decimais
       c = d = 0;
       while (argv[i][c] != '\0')
@@ -133,9 +132,8 @@ int main(int argc, char **argv)
       fprintf(stderr, "Erro no regex(else): %s\n", msgbuf);
       exit(1);
     }
-
+    regfree(&rgx);
   }
-  regfree(&rgx);
 
   return(0);
 }
